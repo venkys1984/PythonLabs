@@ -21,6 +21,7 @@ public class WordsFile
       String line;
       while((line = br.readLine()) != null)
       {
+                line = line.toLowerCase();
 		char[] letters = line.toCharArray();
 		Arrays.sort(letters);
 		String sorted = new String(letters);
