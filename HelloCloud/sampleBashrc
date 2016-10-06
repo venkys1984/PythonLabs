@@ -1,0 +1,4 @@
+#export JAVA_HOME=/home/venky/jdk1.8.0_102/
+export JAVA_HOME=/home/venky/jdk1.7.0_79/
+export PATH=$JAVA_HOME/bin/:/home/venky/apache-maven-3.3.9/bin/:/home/venky/node-v6.7.0-linux-x64/bin/:$PATH
+
