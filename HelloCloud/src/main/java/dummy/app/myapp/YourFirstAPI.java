@@ -30,7 +30,7 @@ public class YourFirstAPI {
 
     //REST : GET http://localhost:8080/_ah/api/yourFirstAPI/v1/sayHelloByName?name=xena
     @ApiMethod(name="sayHelloByName", path="sayHelloByName", httpMethod=HttpMethod.GET)
-    public HelloMessage sayHelloByName(@Named("Your name") String name) {
+    public HelloMessage sayHelloByName(@Named("yourname") String name) {
     	return new HelloMessage(name);
     }
 }

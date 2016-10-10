@@ -6,14 +6,19 @@
         <title>Hello World Endpoints</title>
         
         <script src="hello.js"></script>
-        <script src="https://apis.google.com/js/client.js?onload=googleAPILoaded"></script>
+        <script src="https://apis.google.com/js/client.js?onload=googleClientLoaded"></script>
     
     </head>
     
     <body>
         <H1>My First Endpoints App</H1>
 
-        <button type="button" onclick="clicked()">Click Me!</button> 
+        <button type="button" id="greet" onclick="clicked()">Greet</button> 
+        
+        <p>
+        <input type="text" id="fname"/>
+        <button type="button" id="greetByName">Greet</button>
+        </p>
     
     </body>
 
