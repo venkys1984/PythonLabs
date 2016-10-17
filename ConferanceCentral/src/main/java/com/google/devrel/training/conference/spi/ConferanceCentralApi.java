@@ -7,8 +7,13 @@ import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.devrel.training.conference.Constants;
 import com.google.devrel.training.conference.domain.Profile;
 
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyService;
+
 //import com.google.api.server.spi.config.Named;
 import com.google.devrel.training.conference.form.ProfileForm;
+import com.google.devrel.training.conference.service.OfyService;
+
 import javax.inject.Named;
 import com.google.appengine.api.users.User;
 
@@ -30,6 +35,9 @@ public class ConferanceCentralApi {
 		if(user == null){
 			throw new UnauthorizedException("You are not signed in!");
 		}
-		return new Profile(user.getUserId(),pf.displayName,user.getEmail(),pf.teeShirtSize);
+		Profile entity = new Profile(user.getUserId(),pf.displayName,user.getEmail(),pf.teeShirtSize);
+		Objectify ofy = OfyService.ofy();
+		ofy.save().entity(entity).now();
+		return entity;
 	}
 }
