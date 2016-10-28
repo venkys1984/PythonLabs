@@ -6,7 +6,7 @@ import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.devrel.training.conference.Constants;
 import com.google.devrel.training.conference.domain.Profile;
-
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 
@@ -15,6 +15,8 @@ import com.google.devrel.training.conference.form.ProfileForm;
 import com.google.devrel.training.conference.service.OfyService;
 
 import javax.inject.Named;
+
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.User;
 
 /**
@@ -35,9 +37,29 @@ public class ConferanceCentralApi {
 		if(user == null){
 			throw new UnauthorizedException("You are not signed in!");
 		}
-		Profile entity = new Profile(user.getUserId(),pf.displayName,user.getEmail(),pf.teeShirtSize);
+		
+		Key<Profile> k = Key.create(Profile.class,user.getUserId());
+		Profile entity = OfyService.ofy().load().key(k).now();
+		
+		if(entity == null){
+			entity = new Profile(user.getUserId(),pf.displayName,user.getEmail(),pf.teeShirtSize);
+		}	
+		else {
+			entity.update(pf.displayName,pf.teeShirtSize);
+		}
+		
 		Objectify ofy = OfyService.ofy();
 		ofy.save().entity(entity).now();
 		return entity;
+	}
+	
+	@ApiMethod(name = "getProfile", path="profile", httpMethod=HttpMethod.GET)
+	public Profile getProfile(final User user) throws UnauthorizedException {
+		if(user == null){
+			throw new UnauthorizedException("You are not signed in");
+		}
+		Key<Profile> k = Key.create(Profile.class,user.getUserId());
+		Profile profile = OfyService.ofy().load().key(k).now();
+		return profile;
 	}
 }

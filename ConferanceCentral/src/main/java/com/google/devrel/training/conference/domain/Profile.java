@@ -31,6 +31,14 @@ public class Profile {
     	this.teeSize = tsize;
     }
     
+    public void update(String displayName,TeeShirtSize teeSize){
+    	if(displayName != null)
+    		this.displayName = displayName;
+    	
+    	if(teeSize != null)
+    		this.teeSize = teeSize;
+    }
+    
 
 
 	/**
