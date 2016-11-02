@@ -5,13 +5,15 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.devrel.training.conference.Constants;
+import com.google.devrel.training.conference.domain.Conferance;
 import com.google.devrel.training.conference.domain.Profile;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
-
+import com.google.devrel.training.conference.form.ConferanceForm;
 //import com.google.api.server.spi.config.Named;
 import com.google.devrel.training.conference.form.ProfileForm;
+import com.google.devrel.training.conference.form.ProfileForm.TeeShirtSize;
 import com.google.devrel.training.conference.service.OfyService;
 
 import javax.inject.Named;
@@ -61,5 +63,30 @@ public class ConferanceCentralApi {
 		Key<Profile> k = Key.create(Profile.class,user.getUserId());
 		Profile profile = OfyService.ofy().load().key(k).now();
 		return profile;
+	}
+	
+	@ApiMethod(name="saveConferance",path="conferance",httpMethod=HttpMethod.POST)
+	public Conferance saveConferance(final User user,ConferanceForm cf) throws UnauthorizedException{	
+		if(user == null){
+			throw new UnauthorizedException("You are not signed in");
+		}
+		Conferance c = new Conferance();
+		c.makeConf(cf);
+		Profile profile = getProfileFromUser(user);
+		//c.profileKey = Key.create(Profile.class, user.getUserId());
+		//Objectify ofy = OfyService.ofy();
+		//ofy.save().entity(c).now();
+		return c;
+		
+	}
+	
+	private Profile getProfileFromUser(final User user){
+		Key<Profile> k = Key.create(Profile.class,user.getUserId());
+		Profile profile = OfyService.ofy().load().key(k).now();
+		if(profile == null){
+			profile = new Profile(user.getUserId(),user.getNickname(),user.getEmail(),TeeShirtSize.NOT_SPECIFIED);
+		}
+		return profile;
+		
 	}
 }
