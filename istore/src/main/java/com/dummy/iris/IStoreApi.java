@@ -31,10 +31,12 @@ public class IStoreApi {
 	}
 	
 	@ApiMethod(name="storeNode", path="storeNode", httpMethod = HttpMethod.POST)
-	public Node storeNode(Node n){
+	public Node storeNode(NodeForm nf){
+		Node nodeEntity = new Node();
+		nodeEntity.createNode(nf);
 		Objectify ofy = OfyService.ofy();
-		ofy.save().entity(n).now();
-		return n;
+		ofy.save().entity(nodeEntity).now();
+		return nodeEntity;
 	}
 	
 	@ApiMethod(name="queryNode", path="queryNode", httpMethod = HttpMethod.GET)
@@ -48,6 +50,8 @@ public class IStoreApi {
 		List<Node> nodes = OfyService.ofy().load().type(Node.class).filter(property + " " + "=", value).list();		
 		return nodes.get(0);
 	}
+	
+
 	
 	@ApiMethod(name="getChildren", path="getChildren", httpMethod = HttpMethod.GET)
 	public List<Node> getChildren(@Named("property") String property, @Named("value") String value){		
@@ -73,6 +77,8 @@ public class IStoreApi {
 		return treeRoot;
 	}
 	
+	
+	
 	private TreeNode makeTreeNode(Node root){
 		TreeNode t = new TreeNode();
 		t.properties = root.otherProperties;
@@ -83,6 +89,32 @@ public class IStoreApi {
 			t.children.add(makeTreeNode(entityInfo));
 		}
 		return t;
+	}
+	
+	@ApiMethod(name="getTreeOnTimestamp", path="getTreeOnTimestamp", httpMethod = HttpMethod.GET)
+	public TreeNode getTreeOnTimestamp(@Named("property") String property, @Named("value") String value, @Named("timestamp") Long timestamp){
+		Node root = getEntityOnTimestamp(property, value,timestamp);
+		TreeNode treeRoot = makeTreeNodeOnTimestamp(root,timestamp);
+		return treeRoot;
+	}
+	
+	private TreeNode makeTreeNodeOnTimestamp(Node root,Long timestamp){
+		TreeNode t = new TreeNode();
+		t.properties = root.otherProperties;
+		List<MetaInfo> childMetaInfo = root.children;
+		for(int index = 0; index < childMetaInfo.size(); index++){
+			MetaInfo m = childMetaInfo.get(index);
+			Node entityInfo = getEntityOnTimestamp(m.type, m.ref,timestamp);
+			t.children.add(makeTreeNodeOnTimestamp(entityInfo,timestamp));
+		}
+		return t;
+	}
+	
+	private Node getEntityOnTimestamp(String property, String value, Long timestamp){
+		Date date = new Date(timestamp);
+		List<Node> nodes = OfyService.ofy().load().type(Node.class).filter(property + " " + "=", value)
+				.filter("timeStamp <",date).order("-timeStamp").list();		
+		return nodes.get(0);
 	}
 
 	
