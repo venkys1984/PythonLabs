@@ -9,7 +9,7 @@ let sampleNodes = [
           "CompanyId" : "56",
           "name" : "SLB",
           "Size" : "L"  ,
-          "CEO" : "ABC"
+          "CEO" : "ABC version 111"
         },
         "parent" :{},
         "children" : [
@@ -67,7 +67,8 @@ let sampleNodes = [
             "source" : "avocet",
             "type" : "otherProperties.CompanyId"
         },
-        "children" : []
+        "children" : [     
+        ]
         
     },
     
@@ -101,9 +102,56 @@ let sampleNodes = [
            "type" : "otherProperties.WellId"
        },
        "children" : []
-    }
+    },
+    
+ 
+    
     
     //next
+]
+
+let sampleData2 = [
+       
+     {
+        "source" : "avocet",
+        "identifier" : "otherProperties.WellId",
+        "otherProperties" : {
+          "WellId" : "24",
+          "name" : "Well24",
+          "Size" : "L"    
+        },
+        "parent" : {
+            "ref" : "56",
+            "source" : "avocet",
+            "type" : "otherProperties.CompanyId"
+        },
+        "children" : [
+            {
+              "ref" : "206",
+              "source" : "avocet",
+              "type" : "otherProperties.BoreHoleId"
+            }
+        ]
+        
+    },
+    
+     {
+       "source" : "avocet",
+       "identifier" : "otherProperties.BoreHoleId",
+       "otherProperties" : {
+           "BoreHoleId" : "206",
+           "name" : "BoreHole206",
+           "capacity" : "L"
+       },
+       "parent" : {
+           "ref" : "24",
+           "source" : "avocet",
+           "type" : "otherProperties.WellId"
+       },
+       "children" : []
+    }
+    
+    
 ]
 
 let sampleData = {
