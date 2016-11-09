@@ -28,8 +28,8 @@ public class GraphStoreAPI {
         return nodeEntity;
     }
 
-    @ApiMethod(name="getNode", path="getNode", httpMethod = ApiMethod.HttpMethod.POST)
-    public NodeForm getNode(Identifier id){
+    @ApiMethod(name="getLatestNode", path="getLatestNode", httpMethod = ApiMethod.HttpMethod.POST)
+    public NodeForm getLatestNode(Identifier id){
         Query query = OfyService.ofy().load().type(Node.class);
         System.out.println(id.identifier);
         Map<String,Object> original = id.identifier;
@@ -41,6 +41,8 @@ public class GraphStoreAPI {
         for(String key : flatMap.keySet()){
             query = query.filter(key + " =",flatMap.get(key));
         }
+
+        query = query.order("-timeStamp"); //get the descending order on timestamp
 
         List<Node> nodes = query.list();
         List<NodeForm> nodeforms = new ArrayList<NodeForm>();
@@ -84,7 +86,7 @@ public class GraphStoreAPI {
         }
     }
 
-    private NodeForm queryNode(Map<String,Object> id){
+    private NodeForm queryLatestNode(Map<String,Object> id){
         Query query = OfyService.ofy().load().type(Node.class);
         System.out.println(id);
         Map<String,Object> original = id;
@@ -96,6 +98,8 @@ public class GraphStoreAPI {
         for(String key : flatMap.keySet()){
             query = query.filter(key + " =",flatMap.get(key));
         }
+
+        query = query.order("-timeStamp"); //get the descending order on timestamp
 
         List<Node> nodes = query.list();
         List<NodeForm> nodeforms = new ArrayList<NodeForm>();
@@ -112,12 +116,12 @@ public class GraphStoreAPI {
 
     @ApiMethod(name="getTopDownTree", path="getTopDownTree", httpMethod = ApiMethod.HttpMethod.POST)
     public TreeNode getTopDownTree(Identifier rootId){
-        return getTree(rootId.identifier);
+        return getLatestTree(rootId.identifier);
     }
 
-    private TreeNode getTree(Map<String,Object> identifier) //get top down tree, given the root identifier
+    private TreeNode getLatestTree(Map<String,Object> identifier) //get top down tree, given the root identifier
     {
-        NodeForm rootNode = queryNode(identifier);
+        NodeForm rootNode = queryLatestNode(identifier);
         if(rootNode == null){
             return null;
         }
@@ -132,7 +136,7 @@ public class GraphStoreAPI {
         }
 
         for(Map<String,Object> childIdentifier : rootNode.children){
-            TreeNode childNode = getTree(childIdentifier);
+            TreeNode childNode = getLatestTree(childIdentifier);
             if(childNode!= null){
                 tnode.children.add(childNode);
             }
