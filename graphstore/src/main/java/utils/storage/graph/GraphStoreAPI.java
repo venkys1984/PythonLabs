@@ -59,42 +59,6 @@ public class GraphStoreAPI {
 
     }
 
-    @ApiMethod(name="getNodeAsString", path="getNodeAsString", httpMethod = ApiMethod.HttpMethod.POST)
-    public DummyResult getNodeAsString(Identifier id){
-        Query query = OfyService.ofy().load().type(Node.class);
-        System.out.println(id.identifier);
-        Map<String,Object> original = id.identifier;
-        Map<String,Object> flatMap = new HashMap<String, Object>();
-
-        flatten("identifier",original,flatMap);
-        System.out.println(flatMap);
-
-        for(String key : flatMap.keySet()){
-            query = query.filter(key + " =",flatMap.get(key));
-        }
-
-        List<Node> nodes = query.list();
-        List<NodeForm> nodeforms = new ArrayList<NodeForm>();
-        for(Node item : nodes){
-            nodeforms.add(item.fetchNodeForm());
-        }
-
-        System.out.println("NodeForm object:");
-        System.out.println(nodeforms.get(0).identifier);
-        for(String key : nodeforms.get(0).identifier.keySet()){
-            System.out.println(key);
-            System.out.println(nodeforms.get(0).identifier.get(key).getClass());
-        }
-
-        DummyResult res = new DummyResult();
-
-        Gson gson = new Gson();
-        res.result = gson.toJson(nodeforms.get(0));
-        return res;
-
-        //return nodeforms.get(0); //ideally only one node should match the specified filter criteria
-
-    }
 
     private static void flatten(String prefix, Map<String,Object> ip, Map<String,Object> flatMap){
         for(String key : ip.keySet()){
