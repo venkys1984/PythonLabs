@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+    <application>${endpoints.project.id}</application>
+    <version>1</version>
+    <threadsafe>true</threadsafe>
+
+    <module>treestore</module>
+
+    <vm>true</vm>
+
+    <system-properties>
+        <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+    </system-properties>
+
+    <!--uncomment this for app engine flexible deployment -->
+    <env-variables>
+        <env-var name="ENDPOINTS_SERVICE_NAME" value="${endpoints.project.id}.appspot.com" />
+    </env-variables>
+</appengine-web-app>
