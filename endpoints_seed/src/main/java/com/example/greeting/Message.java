@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.example.echo;
+package com.example.greeting;
 
 
 public class Message {

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.example.echo;
+package com.example.greeting;
 
 import com.google.api.server.spi.auth.EspAuthenticator;
 import com.google.api.server.spi.auth.common.User;
@@ -30,15 +30,15 @@ import com.google.api.server.spi.response.UnauthorizedException;
 
 
 @Api(
-    name = "echo",
+    name = "greeting",
     version = "v1")
 
-public class Echo {
+public class Greeting {
 
-  @ApiMethod(name = "echo")
-  public Message echo(@Named("message") String m) {
+  @ApiMethod(name = "greeting")
+  public Message greeting(@Named("message") String m) {
 
-    return new Message(m + m + m);
+    return new Message("Good day, " + m );
   }
 
 
