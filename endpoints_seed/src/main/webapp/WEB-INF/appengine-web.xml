@@ -18,16 +18,13 @@
     <application>${endpoints.project.id}</application>
     <version>1</version>
     <threadsafe>true</threadsafe>
-
-    <module>graphstore</module>
-
-    <vm>true</vm>
+    <service>echo</service>
 
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
 
    <env-variables>
-        <env-var name="ENDPOINTS_SERVICE_NAME" value="${endpoints.project.id}.appspot.com" />
+        <env-var name="ENDPOINTS_SERVICE_NAME" value="echo-api.endpoints.${endpoints.project.id}.cloud.goog" />
     </env-variables>
 </appengine-web-app>

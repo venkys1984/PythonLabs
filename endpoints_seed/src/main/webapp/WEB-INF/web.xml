@@ -34,12 +34,12 @@
     </welcome-file-list>
 
     <!-- Add a filter that fetches the service config from service management. -->
-    <filter>
+   <!-- <filter>
         <filter-name>endpoints-api-configuration</filter-name>
         <filter-class>com.google.api.control.ServiceManagementConfigFilter</filter-class>
     </filter>
 
-    <!-- Add a filter that performs Endpoints logging and monitoring. -->
+    &lt;!&ndash; Add a filter that performs Endpoints logging and monitoring. &ndash;&gt;
     <filter>
         <filter-name>endpoints-api-controller</filter-name>
         <filter-class>com.google.api.control.extensions.appengine.GoogleAppEngineControlFilter</filter-class>
@@ -49,7 +49,7 @@
         </init-param>
         <init-param>
             <param-name>endpoints.serviceName</param-name>
-            <param-value>${endpoints.project.id}.appspot.com</param-value>
+            <param-value>echo-api.endpoints.${endpoints.project.id}.cloud.goog</param-value>
         </init-param>
     </filter>
 
@@ -61,5 +61,5 @@
     <filter-mapping>
         <filter-name>endpoints-api-controller</filter-name>
         <servlet-name>EndpointsServlet</servlet-name>
-    </filter-mapping>
+    </filter-mapping>-->
 </web-app>
