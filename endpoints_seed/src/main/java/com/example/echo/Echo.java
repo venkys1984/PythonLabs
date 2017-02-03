@@ -38,7 +38,7 @@ public class Echo {
   @ApiMethod(name = "echo")
   public Message echo(@Named("message") String m) {
 
-    return new Message(m);
+    return new Message(m + m + m);
   }
 
 
