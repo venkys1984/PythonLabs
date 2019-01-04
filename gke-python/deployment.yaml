@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: greeting
+  name: greeting
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: greeting
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: greeting
+    spec:
+      containers:
+      - image: gcr.io/evd-ddl-us-services/greeting:v1
+        imagePullPolicy: Always
+        name: greeting
+        ports:
+        - containerPort: 8899
+        resources: {}
+status: {}
+

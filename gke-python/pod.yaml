@@ -1,0 +1,11 @@
+apiVersion: v1 
+kind: Pod 
+metadata: 
+ name: greeting 
+spec: 
+ containers: 
+ - name: web 
+   image: gcr.io/evd-ddl-us-services/greeting:v1 
+   ports: 
+   - containerPort: 8899 
+    
