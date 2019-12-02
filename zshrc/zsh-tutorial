@@ -1,0 +1,64 @@
+Basic set up 
+============
+pre-requisite: you need curl and git already installed
+
+install zsh:
+sudo apt install zsh
+
+and then install oh-my-zsh:
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+Main page for oh-my-zsh : https://github.com/robbyrussell/oh-my-zsh
+
+After installing oh-my-zsh, zsh automatically becomes your default shell . You can launch zsh explicitly by : /bin/zsh or /usr/bin/zsh
+
+Like how bash shell has ~/.bashrc , zsh has ~/.zshrc.
+
+In Terminal >> Edit >> Preferences , choose "Solarized dark" scheme and "solarized" palette
+
+Change theme:
+------------
+First up , you can open that file and change the theme to "agnoster", one of the most popular themes.
+Add/modify this in your .zshrc 
+ZSH_THEME="agnoster"
+
+Plugins:
+-------
+Add some readily available plugins:
+plugins=(git z extract)
+z : it gives the "z" command , which is a great way to jump folder. 
+extract : gives extract command, which can extract any compressed format
+
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+
+Most plugins (should! we're working on this) include a README, which documents how to use them.
+
+Install powerline font:(needed for most themes)
+sudo apt install fonts-powerline
+
+Autosuggestions plugins:
+Autosuggestions work using your zsh history. This greatly increases your typing speed. https://github.com/zsh-users/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+plugins=(zsh-autosuggestions) #in .zshrc
+
+You can change the color in which autosuggestions appear:
+You can edit your ~/.zshrc and change/add the variable: ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=value'
+Suggestions : I used fg=23, which I found best for Solarized dark theme
+Also 
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'  # for solarized dark
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=180' # for solarized light 
+
+
+
+
+Achieve Syntax highlighting:
+----------------------------
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+echo "source ${(q-)PWD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+
+
+Tutorial
+--------
+https://maxim-danilov.github.io/make-linux-terminal-great-again/
